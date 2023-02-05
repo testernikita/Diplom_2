@@ -46,6 +46,7 @@ public class UserCreationTests {
 
         anotherUserCreationResponse.statusCode(403);
         userStatus = anotherUserCreationResponse.extract().path("success");
+
         assertFalse("Пользователь создан повторно", userStatus);
         anotherUserCreationResponse.assertThat().body("message", equalTo("User already exists"));
     }
