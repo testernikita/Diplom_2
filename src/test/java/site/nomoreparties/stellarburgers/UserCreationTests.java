@@ -4,10 +4,12 @@ package site.nomoreparties.stellarburgers;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.client.UserClient;
 import site.nomoreparties.stellarburgers.models.User;
+import site.nomoreparties.stellarburgers.utils.UserCredentials;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -22,6 +24,15 @@ public class UserCreationTests {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandom();
+    }
+
+    @After
+    public void tearDown() {
+        int statusCode = userClient.login(UserCredentials.from(user)).extract().statusCode();
+        if(statusCode == 200) {
+            String userToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
+            userClient.delete(userToken);
+        }
     }
 
     @Test

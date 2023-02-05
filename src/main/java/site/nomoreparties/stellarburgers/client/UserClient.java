@@ -30,4 +30,25 @@ public class UserClient extends RestAssuredClient {
                 .post(AUTH_PATH + "login/")
                 .then();
     }
+
+    @Step("Send POST request to api/auth/user/")
+    public ValidatableResponse change(UserCredentials credentials, String userToken) {
+        return given()
+                .spec(getBaseSpec())
+                .header("Authorization", userToken)
+                .body(credentials)
+                .when()
+                .patch(AUTH_PATH + "user/")
+                .then();
+    }
+
+    @Step("Send DELETE request to api/auth/user/")
+    public ValidatableResponse delete(String userToken) {
+        return given()
+                .spec(getBaseSpec())
+                .header("Authorization", userToken)
+                .when()
+                .delete(AUTH_PATH + "user/")
+                .then();
+    }
 }

@@ -3,6 +3,7 @@ package site.nomoreparties.stellarburgers;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.client.UserClient;
@@ -23,6 +24,15 @@ public class UserLoginTests {
         userClient.create(user);
     }
 
+    @After
+    public void tearDown() {
+        int statusCode = userClient.login(UserCredentials.from(user)).extract().statusCode();
+        if(statusCode == 200) {
+            String userToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
+            userClient.delete(userToken);
+        }
+    }
+
     @Test
     @DisplayName("Авторизация пользователя: api/auth/login/")
     @Description("Логин под существующим пользователем с валидными данными: email, password")
@@ -31,6 +41,7 @@ public class UserLoginTests {
 
         userLoginResponse.statusCode(200);
         userStatus = userLoginResponse.extract().path("success");
+
         assertTrue("Пользователь не был авторизован", userStatus);
     }
 }
