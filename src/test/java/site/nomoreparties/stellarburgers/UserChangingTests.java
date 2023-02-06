@@ -42,6 +42,6 @@ public class UserChangingTests {
         response.statusCode(401);
         userStatus = response.extract().path("success");
 
-        assertFalse("Произошло изменение данных без авторизации", userStatus);
+        assertFalse(userStatus);
     }
 }

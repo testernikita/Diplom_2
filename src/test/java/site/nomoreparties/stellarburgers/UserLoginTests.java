@@ -42,6 +42,6 @@ public class UserLoginTests {
         userLoginResponse.statusCode(200);
         userStatus = userLoginResponse.extract().path("success");
 
-        assertTrue("Пользователь не был авторизован", userStatus);
+        assertTrue(userStatus);
     }
 }

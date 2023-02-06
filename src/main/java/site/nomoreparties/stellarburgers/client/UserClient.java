@@ -2,7 +2,6 @@ package site.nomoreparties.stellarburgers.client;
 
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-import site.nomoreparties.stellarburgers.RestAssuredClient;
 import site.nomoreparties.stellarburgers.models.User;
 import site.nomoreparties.stellarburgers.utils.UserCredentials;
 
